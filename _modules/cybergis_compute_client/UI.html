@@ -10,6 +10,8 @@
     <span class=sd >"""</span>
 <span class=sd >    UI class</span>
 
+<span class=sd >    Args: None</span>
+
 <span class=sd >    Attributes:</span>
 <span class=sd >        compute: Instance of CyberGISCompute</span>
 <span class=sd >        style (dict): Style of each widget (specifically width)</span>
@@ -17,40 +19,66 @@
 <span class=sd >        jobs (list): Jobs being managed currently</span>
 <span class=sd >        hpcs (list): HPCs the jobs are being submitted to</span>
 <span class=sd >        defaultJobName (string): Name that jobs are given by default</span>
-<span class=sd >        defaultRemoteResultFolder (string): Default remote location that results are saved to.</span>
+<span class=sd >        defaultRemoteResultFolder (string): Default remote location</span>
+<span class=sd >        that results are saved to.</span>
 <span class=sd >        defaultDataFolder (string): Default folder that data will be saved to</span>
 <span class=sd >        slurm_configs (list): Default configurations for slurm</span>
-<span class=sd >        slurm_integer_configs (list): Slurm configurations that can be stored as integers</span>
-<span class=sd >        slurm_integer_storage_unit_config (list): Slurm configurations related to storage</span>
-<span class=sd >        slurm_integer_time_unit_config (list): Slurm configurations related to time units</span>
-<span class=sd >        slurm_integer_none_unit_config (list): Slurm configurations related to units other than time</span>
-<span class=sd >        slurm_string_option_configs (list): Slurm configurations for string operations</span>
-<span class=sd >        globus_filename (string): Output filename submitted to Globus (set when entered by the user)</span>
-<span class=sd >        jupyter_globus (dict): Information about where the output data will be stored (container_home_path, endpoint, root_path)</span>
+<span class=sd >        slurm_integer_configs (list): Slurm configurations that can</span>
+<span class=sd >        be stored as integers</span>
+<span class=sd >        slurm_integer_storage_unit_config (list): Slurm configurations</span>
+<span class=sd >        related to storage</span>
+<span class=sd >        slurm_integer_time_unit_config (list): Slurm configurations</span>
+<span class=sd >        related to time units</span>
+<span class=sd >        slurm_integer_none_unit_config (list): Slurm configurations</span>
+<span class=sd >        related to units other than time</span>
+<span class=sd >        slurm_string_option_configs (list): Slurm configurations</span>
+<span class=sd >        for string operations</span>
+<span class=sd >        globus_filename (string): Output filename submitted to</span>
+<span class=sd >        Globus (set when entered by the user)</span>
+<span class=sd >        jupyter_globus (dict): Information about where the output data will be</span>
+<span class=sd >        stored (container_home_path, endpoint, root_path)</span>
 <span class=sd >    """</span>
-    <span class=k >def</span> <span class=fm >__init__</span><span class=p >(</span><span class=bp >self</span><span class=p >,</span> <span class=n >compute</span><span class=p >,</span> <span class=n >defaultJobName</span><span class=o >=</span><span class=s2 >"hello_world"</span><span class=p >,</span> <span class=n >defaultDataFolder</span><span class=o >=</span><span class=s2 >"./"</span><span class=p >,</span> <span class=n >defaultRemoteResultFolder</span><span class=o >=</span><span class=kc >None</span><span class=p >):</span>
+    <span class=k >def</span> <span class=fm >__init__</span><span class=p >(</span>
+        <span class=bp >self</span><span class=p >,</span>
+            <span class=n >compute</span><span class=p >,</span>
+            <span class=n >defaultJobName</span><span class=o >=</span><span class=s2 >"hello_world"</span><span class=p >,</span>
+            <span class=n >defaultDataFolder</span><span class=o >=</span><span class=s2 >"./"</span><span class=p >,</span>
+            <span class=n >defaultRemoteResultFolder</span><span class=o >=</span><span class=kc >None</span><span class=p >):</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >compute</span> <span class=o >=</span> <span class=n >compute</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >style</span> <span class=o >=</span> <span class=p >{</span><span class=s1 >'description_width'</span><span class=p >:</span> <span class=s1 >'auto'</span><span class=p >}</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >layout</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Layout</span><span class=p >(</span><span class=n >width</span><span class=o >=</span><span class=s1 >'60%'</span><span class=p >)</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >jobs</span> <span class=o >=</span> <span class=kc >None</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >hpcs</span> <span class=o >=</span> <span class=kc >None</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >defaultJobName</span> <span class=o >=</span> <span class=n >defaultJobName</span>
-        <span class=k >if</span> <span class=n >defaultRemoteResultFolder</span> <span class=ow >is</span> <span class=ow >not</span> <span class=kc >None</span><span class=p >:</span>
-            <span class=bp >self</span><span class=o >.</span><span class=n >defaultRemoteResultFolder</span> <span class=o >=</span> <span class=n >defaultRemoteResultFolder</span> <span class=k >if</span> <span class=n >defaultRemoteResultFolder</span><span class=p >[</span><span class=mi >0</span><span class=p >]</span> <span class=o >==</span> <span class=s1 >'/'</span> <span class=k >else</span> <span class=s1 >'/'</span> <span class=o >+</span> <span class=n >defaultRemoteResultFolder</span>
+        <span class=n >df</span> <span class=o >=</span> <span class=n >defaultRemoteResultFolder</span>
+        <span class=k >if</span> <span class=n >df</span> <span class=ow >is</span> <span class=ow >not</span> <span class=kc >None</span><span class=p >:</span>
+            <span class=bp >self</span><span class=o >.</span><span class=n >defaultRemoteResultFolder</span> <span class=o >=</span> <span class=n >df</span> <span class=k >if</span> <span class=n >df</span><span class=p >[</span>
+                <span class=mi >0</span><span class=p >]</span> <span class=o >==</span> <span class=s1 >'/'</span> <span class=k >else</span> <span class=s1 >'/'</span> <span class=o >+</span> <span class=n >df</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >defaultDataFolder</span> <span class=o >=</span> <span class=n >defaultDataFolder</span>
         <span class=c1 ># slurm configs</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >slurm_configs</span> <span class=o >=</span> <span class=p >[</span><span class=s1 >'num_of_node'</span><span class=p >,</span> <span class=s1 >'num_of_task'</span><span class=p >,</span> <span class=s1 >'time'</span><span class=p >,</span> <span class=s1 >'cpu_per_task'</span><span class=p >,</span> <span class=s1 >'memory_per_cpu'</span><span class=p >,</span> <span class=s1 >'memory_per_gpu'</span><span class=p >,</span> <span class=s1 >'memory'</span><span class=p >,</span> <span class=s1 >'gpus'</span><span class=p >,</span> <span class=s1 >'gpus_per_node'</span><span class=p >,</span> <span class=s1 >'gpus_per_socket'</span><span class=p >,</span> <span class=s1 >'gpus_per_task'</span><span class=p >,</span> <span class=s1 >'partition'</span><span class=p >]</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >slurm_integer_configs</span> <span class=o >=</span> <span class=p >[</span><span class=s1 >'num_of_node'</span><span class=p >,</span> <span class=s1 >'num_of_task'</span><span class=p >,</span> <span class=s1 >'time'</span><span class=p >,</span> <span class=s1 >'cpu_per_task'</span><span class=p >,</span> <span class=s1 >'memory_per_cpu'</span><span class=p >,</span> <span class=s1 >'memory_per_gpu'</span><span class=p >,</span> <span class=s1 >'memory'</span><span class=p >,</span> <span class=s1 >'gpus'</span><span class=p >,</span> <span class=s1 >'gpus_per_node'</span><span class=p >,</span> <span class=s1 >'gpus_per_socket'</span><span class=p >,</span> <span class=s1 >'gpus_per_task'</span><span class=p >]</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >slurm_integer_storage_unit_config</span> <span class=o >=</span> <span class=p >[</span><span class=s1 >'memory_per_cpu'</span><span class=p >,</span> <span class=s1 >'memory_per_gpu'</span><span class=p >,</span> <span class=s1 >'memory'</span><span class=p >]</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >slurm_configs</span> <span class=o >=</span> <span class=p >[</span>
+            <span class=s1 >'num_of_node'</span><span class=p >,</span> <span class=s1 >'num_of_task'</span><span class=p >,</span> <span class=s1 >'time'</span><span class=p >,</span>
+            <span class=s1 >'cpu_per_task'</span><span class=p >,</span> <span class=s1 >'memory_per_cpu'</span><span class=p >,</span> <span class=s1 >'memory_per_gpu'</span><span class=p >,</span>
+            <span class=s1 >'memory'</span><span class=p >,</span> <span class=s1 >'gpus'</span><span class=p >,</span> <span class=s1 >'gpus_per_node'</span><span class=p >,</span> <span class=s1 >'gpus_per_socket'</span><span class=p >,</span>
+            <span class=s1 >'gpus_per_task'</span><span class=p >,</span> <span class=s1 >'partition'</span><span class=p >]</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >slurm_integer_configs</span> <span class=o >=</span> <span class=p >[</span>
+            <span class=s1 >'num_of_node'</span><span class=p >,</span> <span class=s1 >'num_of_task'</span><span class=p >,</span> <span class=s1 >'time'</span><span class=p >,</span> <span class=s1 >'cpu_per_task'</span><span class=p >,</span>
+            <span class=s1 >'memory_per_cpu'</span><span class=p >,</span> <span class=s1 >'memory_per_gpu'</span><span class=p >,</span> <span class=s1 >'memory'</span><span class=p >,</span> <span class=s1 >'gpus'</span><span class=p >,</span>
+            <span class=s1 >'gpus_per_node'</span><span class=p >,</span> <span class=s1 >'gpus_per_socket'</span><span class=p >,</span> <span class=s1 >'gpus_per_task'</span><span class=p >]</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >slurm_integer_storage_unit_config</span> <span class=o >=</span> <span class=p >[</span>
+            <span class=s1 >'memory_per_cpu'</span><span class=p >,</span> <span class=s1 >'memory_per_gpu'</span><span class=p >,</span> <span class=s1 >'memory'</span><span class=p >]</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >slurm_integer_time_unit_config</span> <span class=o >=</span> <span class=p >[</span><span class=s1 >'time'</span><span class=p >]</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >slurm_integer_none_unit_config</span> <span class=o >=</span> <span class=p >[</span><span class=s1 >'cpu_per_task'</span><span class=p >,</span> <span class=s1 >'num_of_node'</span><span class=p >,</span> <span class=s1 >'num_of_task'</span><span class=p >,</span> <span class=s1 >'gpus'</span><span class=p >,</span> <span class=s1 >'gpus_per_node'</span><span class=p >,</span> <span class=s1 >'gpus_per_socket'</span><span class=p >,</span> <span class=s1 >'gpus_per_task'</span><span class=p >]</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >slurm_integer_none_unit_config</span> <span class=o >=</span> <span class=p >[</span>
+            <span class=s1 >'cpu_per_task'</span><span class=p >,</span> <span class=s1 >'num_of_node'</span><span class=p >,</span> <span class=s1 >'num_of_task'</span><span class=p >,</span> <span class=s1 >'gpus'</span><span class=p >,</span>
+            <span class=s1 >'gpus_per_node'</span><span class=p >,</span> <span class=s1 >'gpus_per_socket'</span><span class=p >,</span> <span class=s1 >'gpus_per_task'</span><span class=p >]</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >slurm_string_option_configs</span> <span class=o >=</span> <span class=p >[</span><span class=s1 >'partition'</span><span class=p >]</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >globus_filename</span> <span class=o >=</span> <span class=kc >None</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >jupyter_globus</span> <span class=o >=</span> <span class=kc >None</span>
 
 <div class=viewcode-block  id=UI.render ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.UI.UI.render">[docs]</a>    <span class=k >def</span> <span class=nf >render</span><span class=p >(</span><span class=bp >self</span><span class=p >):</span>
         <span class=sd >"""</span>
-<span class=sd >        Render main UI by initializing, rendering, and displaying each component</span>
+<span class=sd >        Render main UI by initializing, rendering,</span>
+<span class=sd >        and displaying each component</span>
 <span class=sd >        """</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >init</span><span class=p >()</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >renderComponents</span><span class=p >()</span>
@@ -60,7 +88,9 @@
         <span class=n >job_config</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Output</span><span class=p >()</span>
         <span class=k >with</span> <span class=n >job_config</span><span class=p >:</span>
             <span class=n >display</span><span class=p >(</span><span class=n >Markdown</span><span class=p >(</span><span class=s1 >'# Welcome to CyberGIS-Compute'</span><span class=p >))</span>
-            <span class=n >display</span><span class=p >(</span><span class=n >Markdown</span><span class=p >(</span><span class=s1 >'A scalable middleware framework for enabling high-performance and data-intensive geospatial research and education on CyberGIS-Jupyter'</span><span class=p >))</span>
+            <span class=n >display</span><span class=p >(</span>
+                <span class=n >Markdown</span><span class=p >(</span>
+                    <span class=s1 >'A scalable middleware framework for enabling high-performance and data-intensive geospatial research and education on CyberGIS-Jupyter'</span><span class=p >))</span>
             <span class=n >display</span><span class=p >(</span><span class=n >divider</span><span class=p >)</span>
             <span class=n >display</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >jobTemplate</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >])</span>
             <span class=n >display</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >description</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >])</span>
@@ -128,29 +158,43 @@
     <span class=c1 ># components</span>
 <div class=viewcode-block  id=UI.renderJobTemplate ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.UI.UI.renderJobTemplate">[docs]</a>    <span class=k >def</span> <span class=nf >renderJobTemplate</span><span class=p >(</span><span class=bp >self</span><span class=p >):</span>
         <span class=sd >"""</span>
-<span class=sd >        Display a dropdown of jobs to run. Update jobTemplate when the dropdown changes.</span>
+<span class=sd >        Display a dropdown of jobs to run.</span>
+<span class=sd >        Update jobTemplate when the dropdown changes.</span>
 <span class=sd >        """</span>
         <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >jobTemplate</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]</span> <span class=ow >is</span> <span class=kc >None</span><span class=p >:</span>
 
             <span class=bp >self</span><span class=o >.</span><span class=n >jobTemplate</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Output</span><span class=p >()</span>
         <span class=c1 ># create components</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >jobTemplate</span><span class=p >[</span><span class=s1 >'dropdown'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Dropdown</span><span class=p >(</span><span class=n >options</span><span class=o >=</span><span class=p >[</span><span class=n >i</span> <span class=k >for</span> <span class=n >i</span> <span class=ow >in</span> <span class=bp >self</span><span class=o >.</span><span class=n >jobs</span><span class=p >],</span> <span class=n >value</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >jobName</span><span class=p >,</span> <span class=n >description</span><span class=o >=</span><span class=s1 >'📦 Job Templates:'</span><span class=p >,</span> <span class=n >style</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >style</span><span class=p >,</span> <span class=n >layout</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >layout</span><span class=p >)</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >jobTemplate</span><span class=p >[</span><span class=s1 >'dropdown'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Dropdown</span><span class=p >(</span>
+            <span class=n >options</span><span class=o >=</span><span class=p >[</span><span class=n >i</span> <span class=k >for</span> <span class=n >i</span> <span class=ow >in</span> <span class=bp >self</span><span class=o >.</span><span class=n >jobs</span><span class=p >],</span> <span class=n >value</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >jobName</span><span class=p >,</span>
+            <span class=n >description</span><span class=o >=</span><span class=s1 >'📦 Job Templates:'</span><span class=p >,</span>
+            <span class=n >style</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >style</span><span class=p >,</span>
+            <span class=n >layout</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >layout</span><span class=p >)</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >jobTemplate</span><span class=p >[</span><span class=s1 >'dropdown'</span><span class=p >]</span><span class=o >.</span><span class=n >observe</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >onJobDropdownChange</span><span class=p >())</span>
         <span class=k >with</span> <span class=bp >self</span><span class=o >.</span><span class=n >jobTemplate</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]:</span>
             <span class=n >display</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >jobTemplate</span><span class=p >[</span><span class=s1 >'dropdown'</span><span class=p >])</span></div>
 
 <div class=viewcode-block  id=UI.renderDescription ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.UI.UI.renderDescription">[docs]</a>    <span class=k >def</span> <span class=nf >renderDescription</span><span class=p >(</span><span class=bp >self</span><span class=p >):</span>
         <span class=sd >"""</span>
-<span class=sd >        Display information about the job (job name, job description, HPC name, HPC description, estimated runtime)</span>
+<span class=sd >        Display information about the job (job name, job description,</span>
+<span class=sd >        HPC name, HPC description, estimated runtime)</span>
 <span class=sd >        """</span>
         <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >description</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]</span> <span class=ow >is</span> <span class=kc >None</span><span class=p >:</span>
             <span class=bp >self</span><span class=o >.</span><span class=n >description</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Output</span><span class=p >()</span>
 
-        <span class=bp >self</span><span class=o >.</span><span class=n >description</span><span class=p >[</span><span class=s1 >'job_description'</span><span class=p >]</span> <span class=o >=</span> <span class=n >Markdown</span><span class=p >(</span><span class=s1 >'**'</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >jobName</span> <span class=o >+</span> <span class=s1 >' Job Description:** '</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >job</span><span class=p >[</span><span class=s1 >'description'</span><span class=p >])</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >description</span><span class=p >[</span><span class=s1 >'computing_resource_description'</span><span class=p >]</span> <span class=o >=</span> <span class=n >Markdown</span><span class=p >(</span><span class=s1 >'**'</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >hpcName</span> <span class=o >+</span> <span class=s1 >' HPC Description**: '</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >hpc</span><span class=p >[</span><span class=s1 >'description'</span><span class=p >])</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >description</span><span class=p >[</span><span class=s1 >'estimated_runtime'</span><span class=p >]</span> <span class=o >=</span> <span class=n >Markdown</span><span class=p >(</span><span class=s1 >'**Estimated Runtime:** '</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >job</span><span class=p >[</span><span class=s1 >'estimated_runtime'</span><span class=p >])</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >description</span><span class=p >[</span><span class=s1 >'job_description'</span><span class=p >]</span> <span class=o >=</span> <span class=n >Markdown</span><span class=p >(</span>
+            <span class=s1 >'**'</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >jobName</span> <span class=o >+</span> <span class=s1 >' Job Description:** '</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >job</span><span class=p >[</span>
+                <span class=s1 >'description'</span><span class=p >])</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >description</span><span class=p >[</span><span class=s1 >'computing_resource_description'</span><span class=p >]</span> <span class=o >=</span> <span class=n >Markdown</span><span class=p >(</span>
+            <span class=s1 >'**'</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >hpcName</span> <span class=o >+</span> <span class=s1 >' HPC Description**: '</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >hpc</span><span class=p >[</span>
+                <span class=s1 >'description'</span><span class=p >])</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >description</span><span class=p >[</span><span class=s1 >'estimated_runtime'</span><span class=p >]</span> <span class=o >=</span> <span class=n >Markdown</span><span class=p >(</span>
+            <span class=s1 >'**Estimated Runtime:** '</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >job</span><span class=p >[</span><span class=s1 >'estimated_runtime'</span><span class=p >])</span>
         <span class=k >with</span> <span class=bp >self</span><span class=o >.</span><span class=n >description</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]:</span>
-            <span class=n >display</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >description</span><span class=p >[</span><span class=s1 >'job_description'</span><span class=p >],</span> <span class=bp >self</span><span class=o >.</span><span class=n >description</span><span class=p >[</span><span class=s1 >'computing_resource_description'</span><span class=p >],</span> <span class=bp >self</span><span class=o >.</span><span class=n >description</span><span class=p >[</span><span class=s1 >'estimated_runtime'</span><span class=p >])</span></div>
+            <span class=n >display</span><span class=p >(</span>
+                <span class=bp >self</span><span class=o >.</span><span class=n >description</span><span class=p >[</span><span class=s1 >'job_description'</span><span class=p >],</span>
+                <span class=bp >self</span><span class=o >.</span><span class=n >description</span><span class=p >[</span><span class=s1 >'computing_resource_description'</span><span class=p >],</span>
+                <span class=bp >self</span><span class=o >.</span><span class=n >description</span><span class=p >[</span><span class=s1 >'estimated_runtime'</span><span class=p >])</span></div>
 
 <div class=viewcode-block  id=UI.renderComputingResource ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.UI.UI.renderComputingResource">[docs]</a>    <span class=k >def</span> <span class=nf >renderComputingResource</span><span class=p >(</span><span class=bp >self</span><span class=p >):</span>
         <span class=sd >"""</span>
@@ -159,30 +203,45 @@
         <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >computingResource</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]</span> <span class=ow >is</span> <span class=kc >None</span><span class=p >:</span>
             <span class=bp >self</span><span class=o >.</span><span class=n >computingResource</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Output</span><span class=p >()</span>
         <span class=c1 ># create components</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >computingResource</span><span class=p >[</span><span class=s1 >'dropdown'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Dropdown</span><span class=p >(</span><span class=n >options</span><span class=o >=</span><span class=p >[</span><span class=n >i</span> <span class=k >for</span> <span class=n >i</span> <span class=ow >in</span> <span class=bp >self</span><span class=o >.</span><span class=n >job</span><span class=p >[</span><span class=s1 >'supported_hpc'</span><span class=p >]],</span> <span class=n >value</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >hpcName</span><span class=p >,</span> <span class=n >description</span><span class=o >=</span><span class=s1 >'🖥 Computing Recourse:'</span><span class=p >,</span> <span class=n >style</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >style</span><span class=p >,</span> <span class=n >layout</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >layout</span><span class=p >)</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >computingResource</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Accordion</span><span class=p >(</span><span class=n >children</span><span class=o >=</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >computingResource</span><span class=p >[</span><span class=s1 >'dropdown'</span><span class=p >],</span> <span class=p >),</span> <span class=n >selected_index</span><span class=o >=</span><span class=kc >None</span><span class=p >)</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >computingResource</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >]</span><span class=o >.</span><span class=n >set_title</span><span class=p >(</span><span class=mi >0</span><span class=p >,</span> <span class=s1 >'Computing Resource'</span><span class=p >)</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >computingResource</span><span class=p >[</span><span class=s1 >'dropdown'</span><span class=p >]</span><span class=o >.</span><span class=n >observe</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >onComputingResourceDropdownChange</span><span class=p >())</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >computingResource</span><span class=p >[</span><span class=s1 >'dropdown'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Dropdown</span><span class=p >(</span>
+            <span class=n >options</span><span class=o >=</span><span class=p >[</span><span class=n >i</span> <span class=k >for</span> <span class=n >i</span> <span class=ow >in</span> <span class=bp >self</span><span class=o >.</span><span class=n >job</span><span class=p >[</span><span class=s1 >'supported_hpc'</span><span class=p >]],</span>
+            <span class=n >value</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >hpcName</span><span class=p >,</span>
+            <span class=n >description</span><span class=o >=</span><span class=s1 >'🖥 Computing Recourse:'</span><span class=p >,</span>
+            <span class=n >style</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >style</span><span class=p >,</span>
+            <span class=n >layout</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >layout</span><span class=p >)</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >computingResource</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Accordion</span><span class=p >(</span>
+            <span class=n >children</span><span class=o >=</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >computingResource</span><span class=p >[</span><span class=s1 >'dropdown'</span><span class=p >],</span> <span class=p >),</span>
+            <span class=n >selected_index</span><span class=o >=</span><span class=kc >None</span><span class=p >)</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >computingResource</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >]</span><span class=o >.</span><span class=n >set_title</span><span class=p >(</span>
+            <span class=mi >0</span><span class=p >,</span> <span class=s1 >'Computing Resource'</span><span class=p >)</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >computingResource</span><span class=p >[</span><span class=s1 >'dropdown'</span><span class=p >]</span><span class=o >.</span><span class=n >observe</span><span class=p >(</span>
+            <span class=bp >self</span><span class=o >.</span><span class=n >onComputingResourceDropdownChange</span><span class=p >())</span>
         <span class=k >with</span> <span class=bp >self</span><span class=o >.</span><span class=n >computingResource</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]:</span>
             <span class=n >display</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >computingResource</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >])</span></div>
 
 <div class=viewcode-block  id=UI.renderEmail ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.UI.UI.renderEmail">[docs]</a>    <span class=k >def</span> <span class=nf >renderEmail</span><span class=p >(</span><span class=bp >self</span><span class=p >):</span>
         <span class=sd >"""</span>
-<span class=sd >        Displays a checkbox that lets the user recieve an email on job status and input their email.</span>
+<span class=sd >        Displays a checkbox that lets the user recieve an email</span>
+<span class=sd >        on job status and input their email.</span>
 <span class=sd >        """</span>
         <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]</span> <span class=ow >is</span> <span class=kc >None</span><span class=p >:</span>
 
             <span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Output</span><span class=p >()</span>
         <span class=c1 ># create components</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'checkbox'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Checkbox</span><span class=p >(</span><span class=n >description</span><span class=o >=</span><span class=s1 >'receive email on job status? '</span><span class=p >,</span> <span class=n >value</span><span class=o >=</span><span class=kc >False</span><span class=p >,</span> <span class=n >style</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >style</span><span class=p >)</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'text'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Text</span><span class=p >(</span><span class=n >value</span><span class=o >=</span><span class=s1 >'example@illinois.edu'</span><span class=p >,</span> <span class=n >style</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >style</span><span class=p >)</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'hbox'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >HBox</span><span class=p >([</span><span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'checkbox'</span><span class=p >],</span> <span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'text'</span><span class=p >]])</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'checkbox'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Checkbox</span><span class=p >(</span>
+            <span class=n >description</span><span class=o >=</span><span class=s1 >'receive email on job status? '</span><span class=p >,</span>
+            <span class=n >value</span><span class=o >=</span><span class=kc >False</span><span class=p >,</span> <span class=n >style</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >style</span><span class=p >)</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'text'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Text</span><span class=p >(</span>
+            <span class=n >value</span><span class=o >=</span><span class=s1 >'example@illinois.edu'</span><span class=p >,</span> <span class=n >style</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >style</span><span class=p >)</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'hbox'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >HBox</span><span class=p >(</span>
+            <span class=p >[</span><span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'checkbox'</span><span class=p >],</span> <span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'text'</span><span class=p >]])</span>
         <span class=k >with</span> <span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]:</span>
             <span class=n >display</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'hbox'</span><span class=p >])</span></div>
 
 <div class=viewcode-block  id=UI.renderSlurm ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.UI.UI.renderSlurm">[docs]</a>    <span class=k >def</span> <span class=nf >renderSlurm</span><span class=p >(</span><span class=bp >self</span><span class=p >):</span>
         <span class=sd >"""</span>
-<span class=sd >        Configures Slurm input rules (default value, min, m), allows the user to input custom input rules if they want.</span>
+<span class=sd >        Configures Slurm input rules (default value, min, m),</span>
+<span class=sd >        allows the user to input custom input rules if they want.</span>
 <span class=sd >        """</span>
         <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]</span> <span class=ow >is</span> <span class=kc >None</span><span class=p >:</span>
             <span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Output</span><span class=p >()</span>
@@ -237,7 +296,10 @@
         <span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=s1 >'vbox'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >VBox</span><span class=p >(</span><span class=n >w</span><span class=p >)</span>
 
         <span class=c1 ># settings end</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Accordion</span><span class=p >(</span><span class=n >children</span><span class=o >=</span><span class=p >(</span><span class=n >widgets</span><span class=o >.</span><span class=n >VBox</span><span class=p >(</span><span class=n >children</span><span class=o >=</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=s1 >'description'</span><span class=p >],</span> <span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=s1 >'vbox'</span><span class=p >])),</span> <span class=p >),</span> <span class=n >selected_index</span><span class=o >=</span><span class=kc >None</span><span class=p >)</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Accordion</span><span class=p >(</span>
+            <span class=n >children</span><span class=o >=</span><span class=p >(</span>
+                <span class=n >widgets</span><span class=o >.</span><span class=n >VBox</span><span class=p >(</span>
+                    <span class=n >children</span><span class=o >=</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=s1 >'description'</span><span class=p >],</span> <span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=s1 >'vbox'</span><span class=p >])),),</span> <span class=n >selected_index</span><span class=o >=</span><span class=kc >None</span><span class=p >)</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >]</span><span class=o >.</span><span class=n >set_title</span><span class=p >(</span><span class=mi >0</span><span class=p >,</span> <span class=s1 >'Slurm Computing Configurations'</span><span class=p >)</span>
         <span class=k >with</span> <span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]:</span>
             <span class=n >display</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >])</span></div>
@@ -252,11 +314,15 @@
         <span class=k >if</span> <span class=ow >not</span> <span class=bp >self</span><span class=o >.</span><span class=n >job</span><span class=p >[</span><span class=s1 >'require_upload_data'</span><span class=p >]:</span>
             <span class=k >return</span>
         <span class=c1 ># render all</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >uploadData</span><span class=p >[</span><span class=s1 >'selector'</span><span class=p >]</span> <span class=o >=</span> <span class=n >FileChooser</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >defaultDataFolder</span><span class=p >,</span> <span class=n >select_default</span><span class=o >=</span><span class=kc >True</span> <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >defaultDataFolder</span> <span class=o >!=</span> <span class=s1 >'./'</span> <span class=k >else</span> <span class=kc >False</span><span class=p >)</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >uploadData</span><span class=p >[</span><span class=s1 >'selector'</span><span class=p >]</span> <span class=o >=</span> <span class=n >FileChooser</span><span class=p >(</span>
+            <span class=bp >self</span><span class=o >.</span><span class=n >defaultDataFolder</span><span class=p >,</span>
+            <span class=n >select_default</span><span class=o >=</span><span class=kc >True</span> <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >defaultDataFolder</span> <span class=o >!=</span> <span class=s1 >'./'</span> <span class=k >else</span> <span class=kc >False</span><span class=p >)</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >uploadData</span><span class=p >[</span><span class=s1 >'selector'</span><span class=p >]</span><span class=o >.</span><span class=n >show_only_dirs</span> <span class=o >=</span> <span class=kc >True</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >uploadData</span><span class=p >[</span><span class=s1 >'selector'</span><span class=p >]</span><span class=o >.</span><span class=n >title</span> <span class=o >=</span> <span class=s1 >'Job requires upload data. Please select a folder to upload'</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >uploadData</span><span class=p >[</span><span class=s1 >'selector'</span><span class=p >]</span><span class=o >.</span><span class=n >title</span> <span class=o >=</span> <span class=s1 >'Job requires upload data.'</span>
+        <span class=o >+</span> <span class=s1 >'Please select a folder to upload'</span>
         <span class=c1 ># settings end</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >uploadData</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Accordion</span><span class=p >(</span><span class=n >children</span><span class=o >=</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >uploadData</span><span class=p >[</span><span class=s1 >'selector'</span><span class=p >],</span> <span class=p >),</span> <span class=n >selected_index</span><span class=o >=</span><span class=kc >None</span><span class=p >)</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >uploadData</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Accordion</span><span class=p >(</span>
+            <span class=n >children</span><span class=o >=</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >uploadData</span><span class=p >[</span><span class=s1 >'selector'</span><span class=p >],</span> <span class=p >),</span> <span class=n >selected_index</span><span class=o >=</span><span class=kc >None</span><span class=p >)</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >uploadData</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >]</span><span class=o >.</span><span class=n >set_title</span><span class=p >(</span><span class=mi >0</span><span class=p >,</span> <span class=s1 >'Upload Data'</span><span class=p >)</span>
         <span class=k >with</span> <span class=bp >self</span><span class=o >.</span><span class=n >uploadData</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]:</span>
             <span class=n >display</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >uploadData</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >])</span></div>
@@ -311,19 +377,23 @@
 
             <span class=k >if</span> <span class=n >config</span><span class=p >[</span><span class=s1 >'type'</span><span class=p >]</span> <span class=o >==</span> <span class=s1 >'string_input'</span><span class=p >:</span>
                 <span class=n >default_val</span> <span class=o >=</span> <span class=n >config</span><span class=p >[</span><span class=s1 >'default_value'</span><span class=p >]</span>
-                <span class=bp >self</span><span class=o >.</span><span class=n >param</span><span class=p >[</span><span class=n >i</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Text</span><span class=p >(</span><span class=n >description</span><span class=o >=</span><span class=n >i</span><span class=p >,</span> <span class=n >value</span><span class=o >=</span><span class=n >default_val</span><span class=p >,</span> <span class=n >style</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >style</span><span class=p >)</span>
+                <span class=bp >self</span><span class=o >.</span><span class=n >param</span><span class=p >[</span><span class=n >i</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Text</span><span class=p >(</span>
+                    <span class=n >description</span><span class=o >=</span><span class=n >i</span><span class=p >,</span> <span class=n >value</span><span class=o >=</span><span class=n >default_val</span><span class=p >,</span> <span class=n >style</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >style</span><span class=p >)</span>
 
         <span class=c1 ># render all</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >param</span><span class=p >[</span><span class=s1 >'vbox'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >VBox</span><span class=p >([</span><span class=bp >self</span><span class=o >.</span><span class=n >param</span><span class=p >[</span><span class=n >i</span><span class=p >]</span> <span class=k >for</span> <span class=n >i</span> <span class=ow >in</span> <span class=bp >self</span><span class=o >.</span><span class=n >job</span><span class=p >[</span><span class=s1 >'param_rules'</span><span class=p >]])</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >param</span><span class=p >[</span><span class=s1 >'vbox'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >VBox</span><span class=p >(</span>
+            <span class=p >[</span><span class=bp >self</span><span class=o >.</span><span class=n >param</span><span class=p >[</span><span class=n >i</span><span class=p >]</span> <span class=k >for</span> <span class=n >i</span> <span class=ow >in</span> <span class=bp >self</span><span class=o >.</span><span class=n >job</span><span class=p >[</span><span class=s1 >'param_rules'</span><span class=p >]])</span>
         <span class=c1 ># settings end</span>
-        <span class=bp >self</span><span class=o >.</span><span class=n >param</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Accordion</span><span class=p >(</span><span class=n >children</span><span class=o >=</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >param</span><span class=p >[</span><span class=s1 >'vbox'</span><span class=p >],</span> <span class=p >),</span> <span class=n >selected_index</span><span class=o >=</span><span class=kc >None</span><span class=p >)</span>
+        <span class=bp >self</span><span class=o >.</span><span class=n >param</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Accordion</span><span class=p >(</span>
+            <span class=n >children</span><span class=o >=</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >param</span><span class=p >[</span><span class=s1 >'vbox'</span><span class=p >],</span> <span class=p >),</span> <span class=n >selected_index</span><span class=o >=</span><span class=kc >None</span><span class=p >)</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >param</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >]</span><span class=o >.</span><span class=n >set_title</span><span class=p >(</span><span class=mi >0</span><span class=p >,</span> <span class=s1 >'Input Parameters'</span><span class=p >)</span>
         <span class=k >with</span> <span class=bp >self</span><span class=o >.</span><span class=n >param</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]:</span>
             <span class=n >display</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >param</span><span class=p >[</span><span class=s1 >'accordion'</span><span class=p >])</span></div>
 
 <div class=viewcode-block  id=UI.renderSubmit ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.UI.UI.renderSubmit">[docs]</a>    <span class=k >def</span> <span class=nf >renderSubmit</span><span class=p >(</span><span class=bp >self</span><span class=p >):</span>
         <span class=sd >"""</span>
-<span class=sd >        Render submit button. If the job has been submitted, display that, otherwise display the submit button.</span>
+<span class=sd >        Render submit button. If the job has been submitted,</span>
+<span class=sd >        display that, otherwise display the submit button.</span>
 <span class=sd >        """</span>
         <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >submit</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]</span> <span class=ow >is</span> <span class=kc >None</span><span class=p >:</span>
             <span class=bp >self</span><span class=o >.</span><span class=n >submit</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Output</span><span class=p >()</span>
@@ -331,7 +401,8 @@
             <span class=bp >self</span><span class=o >.</span><span class=n >submit</span><span class=p >[</span><span class=s1 >'alert_output'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Output</span><span class=p >()</span>
         <span class=c1 ># create components</span>
         <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >submitted</span><span class=p >:</span>
-            <span class=bp >self</span><span class=o >.</span><span class=n >submit</span><span class=p >[</span><span class=s1 >'button'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Button</span><span class=p >(</span><span class=n >description</span><span class=o >=</span><span class=s2 >"Job Submitted ✅"</span><span class=p >,</span> <span class=n >disabled</span><span class=o >=</span><span class=kc >True</span><span class=p >)</span>
+            <span class=bp >self</span><span class=o >.</span><span class=n >submit</span><span class=p >[</span><span class=s1 >'button'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Button</span><span class=p >(</span>
+                <span class=n >description</span><span class=o >=</span><span class=s2 >"Job Submitted ✅"</span><span class=p >,</span> <span class=n >disabled</span><span class=o >=</span><span class=kc >True</span><span class=p >)</span>
         <span class=k >else</span><span class=p >:</span>
             <span class=bp >self</span><span class=o >.</span><span class=n >submit</span><span class=p >[</span><span class=s1 >'button'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Button</span><span class=p >(</span><span class=n >description</span><span class=o >=</span><span class=s2 >"Submit Job"</span><span class=p >)</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >submit</span><span class=p >[</span><span class=s1 >'button'</span><span class=p >]</span><span class=o >.</span><span class=n >on_click</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >onSubmitButtonClick</span><span class=p >())</span>
@@ -355,14 +426,20 @@
             <span class=n >result_folder_content</span> <span class=o >=</span> <span class=bp >self</span><span class=o >.</span><span class=n >compute</span><span class=o >.</span><span class=n >job</span><span class=o >.</span><span class=n >result_folder_content</span><span class=p >()</span>
             <span class=c1 ># push default value to front</span>
             <span class=k >try</span><span class=p >:</span>
-                <span class=n >result_folder_content</span><span class=o >.</span><span class=n >insert</span><span class=p >(</span><span class=mi >0</span><span class=p >,</span> <span class=n >result_folder_content</span><span class=o >.</span><span class=n >pop</span><span class=p >(</span><span class=n >result_folder_content</span><span class=o >.</span><span class=n >index</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >defaultRemoteResultFolder</span><span class=p >)))</span>
-            <span class=k >except</span><span class=p >:</span>
+                <span class=n >result_folder_content</span><span class=o >.</span><span class=n >insert</span><span class=p >(</span>
+                    <span class=mi >0</span><span class=p >,</span> <span class=n >result_folder_content</span><span class=o >.</span><span class=n >pop</span><span class=p >(</span>
+                        <span class=n >result_folder_content</span><span class=o >.</span><span class=n >index</span><span class=p >(</span>
+                            <span class=bp >self</span><span class=o >.</span><span class=n >defaultRemoteResultFolder</span><span class=p >)))</span>
+            <span class=k >except</span> <span class=ne >Exception</span><span class=p >:</span>
                 <span class=n >result_folder_content</span>
-            <span class=bp >self</span><span class=o >.</span><span class=n >download</span><span class=p >[</span><span class=s1 >'dropdown'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Dropdown</span><span class=p >(</span><span class=n >options</span><span class=o >=</span><span class=n >result_folder_content</span><span class=p >,</span> <span class=n >value</span><span class=o >=</span><span class=n >result_folder_content</span><span class=p >[</span><span class=mi >0</span><span class=p >],</span> <span class=n >description</span><span class=o >=</span><span class=s1 >'select file/folder'</span><span class=p >)</span>
+            <span class=bp >self</span><span class=o >.</span><span class=n >download</span><span class=p >[</span><span class=s1 >'dropdown'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Dropdown</span><span class=p >(</span>
+                <span class=n >options</span><span class=o >=</span><span class=n >result_folder_content</span><span class=p >,</span> <span class=n >value</span><span class=o >=</span><span class=n >result_folder_content</span><span class=p >[</span><span class=mi >0</span><span class=p >],</span>
+                <span class=n >description</span><span class=o >=</span><span class=s1 >'select file/folder'</span><span class=p >)</span>
             <span class=bp >self</span><span class=o >.</span><span class=n >download</span><span class=p >[</span><span class=s1 >'button'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Button</span><span class=p >(</span><span class=n >description</span><span class=o >=</span><span class=s2 >"Download"</span><span class=p >)</span>
             <span class=bp >self</span><span class=o >.</span><span class=n >download</span><span class=p >[</span><span class=s1 >'button'</span><span class=p >]</span><span class=o >.</span><span class=n >on_click</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >onDownloadButtonClick</span><span class=p >())</span>
         <span class=k >else</span><span class=p >:</span>
-            <span class=bp >self</span><span class=o >.</span><span class=n >download</span><span class=p >[</span><span class=s1 >'button'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Button</span><span class=p >(</span><span class=n >description</span><span class=o >=</span><span class=s2 >"Download"</span><span class=p >,</span> <span class=n >disabled</span><span class=o >=</span><span class=kc >True</span><span class=p >)</span>
+            <span class=bp >self</span><span class=o >.</span><span class=n >download</span><span class=p >[</span><span class=s1 >'button'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Button</span><span class=p >(</span>
+                <span class=n >description</span><span class=o >=</span><span class=s2 >"Download"</span><span class=p >,</span> <span class=n >disabled</span><span class=o >=</span><span class=kc >True</span><span class=p >)</span>
 
         <span class=k >with</span> <span class=bp >self</span><span class=o >.</span><span class=n >download</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]:</span>
             <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >jobFinished</span><span class=p >:</span>
@@ -408,7 +485,8 @@
 
 <div class=viewcode-block  id=UI.renderResultLogs ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.UI.UI.renderResultLogs">[docs]</a>    <span class=k >def</span> <span class=nf >renderResultLogs</span><span class=p >(</span><span class=bp >self</span><span class=p >):</span>
         <span class=sd >"""</span>
-<span class=sd >        Display when the job is finished and rerender the download section when it is.</span>
+<span class=sd >        Display when the job is finished and</span>
+<span class=sd >        rerender the download section when it is.</span>
 <span class=sd >        """</span>
         <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >resultLogs</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]</span> <span class=ow >is</span> <span class=kc >None</span><span class=p >:</span>
             <span class=bp >self</span><span class=o >.</span><span class=n >resultLogs</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Output</span><span class=p >()</span>
@@ -468,14 +546,17 @@
 <div class=viewcode-block  id=UI.onDownloadButtonClick ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.UI.UI.onDownloadButtonClick">[docs]</a>    <span class=k >def</span> <span class=nf >onDownloadButtonClick</span><span class=p >(</span><span class=bp >self</span><span class=p >):</span>
         <span class=k >def</span> <span class=nf >on_click</span><span class=p >(</span><span class=n >change</span><span class=p >):</span>
             <span class=sd >"""</span>
-<span class=sd >            Download the output data to the specified path and display the location.</span>
+<span class=sd >            Download the output data to the specified path</span>
+<span class=sd >            and display the location.</span>
 <span class=sd >            """</span>
             <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >downloading</span><span class=p >:</span>
 
                 <span class=bp >self</span><span class=o >.</span><span class=n >download</span><span class=p >[</span><span class=s1 >'alert_output'</span><span class=p >]</span><span class=o >.</span><span class=n >clear_output</span><span class=p >(</span><span class=n >wait</span><span class=o >=</span><span class=kc >True</span><span class=p >)</span>
 
                 <span class=k >with</span> <span class=bp >self</span><span class=o >.</span><span class=n >download</span><span class=p >[</span><span class=s1 >'alert_output'</span><span class=p >]:</span>
-                    <span class=n >display</span><span class=p >(</span><span class=n >Markdown</span><span class=p >(</span><span class=s1 >'⚠️ download process is running in background...'</span><span class=p >))</span>
+                    <span class=n >display</span><span class=p >(</span>
+                        <span class=n >Markdown</span><span class=p >(</span>
+                            <span class=s1 >'⚠️ download process is running in background...'</span><span class=p >))</span>
                     <span class=k >return</span>
 
             <span class=k >with</span> <span class=bp >self</span><span class=o >.</span><span class=n >download</span><span class=p >[</span><span class=s1 >'result_output'</span><span class=p >]:</span>
@@ -486,9 +567,12 @@
                 <span class=bp >self</span><span class=o >.</span><span class=n >renderLoadMore</span><span class=p >()</span>
                 <span class=bp >self</span><span class=o >.</span><span class=n >download</span><span class=p >[</span><span class=s1 >'alert_output'</span><span class=p >]</span><span class=o >.</span><span class=n >clear_output</span><span class=p >(</span><span class=n >wait</span><span class=o >=</span><span class=kc >True</span><span class=p >)</span>
                 <span class=bp >self</span><span class=o >.</span><span class=n >downloading</span> <span class=o >=</span> <span class=kc >True</span>
-                <span class=bp >self</span><span class=o >.</span><span class=n >compute</span><span class=o >.</span><span class=n >job</span><span class=o >.</span><span class=n >download_result_folder</span><span class=p >(</span><span class=n >remotePath</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >download</span><span class=p >[</span><span class=s1 >'dropdown'</span><span class=p >]</span><span class=o >.</span><span class=n >value</span><span class=p >)</span>
+                <span class=bp >self</span><span class=o >.</span><span class=n >compute</span><span class=o >.</span><span class=n >job</span><span class=o >.</span><span class=n >download_result_folder</span><span class=p >(</span>
+                    <span class=n >remotePath</span><span class=o >=</span><span class=bp >self</span><span class=o >.</span><span class=n >download</span><span class=p >[</span><span class=s1 >'dropdown'</span><span class=p >]</span><span class=o >.</span><span class=n >value</span><span class=p >)</span>
                 <span class=nb >print</span><span class=p >(</span><span class=s1 >'please check your data at your root folder under "'</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >globus_filename</span> <span class=o >+</span> <span class=s1 >'"'</span><span class=p >)</span>
-                <span class=bp >self</span><span class=o >.</span><span class=n >compute</span><span class=o >.</span><span class=n >recentDownloadPath</span> <span class=o >=</span> <span class=n >os</span><span class=o >.</span><span class=n >path</span><span class=o >.</span><span class=n >join</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >jupyter_globus</span><span class=p >[</span><span class=s1 >'container_home_path'</span><span class=p >],</span> <span class=bp >self</span><span class=o >.</span><span class=n >globus_filename</span><span class=p >)</span>
+                <span class=bp >self</span><span class=o >.</span><span class=n >compute</span><span class=o >.</span><span class=n >recentDownloadPath</span> <span class=o >=</span> <span class=n >os</span><span class=o >.</span><span class=n >path</span><span class=o >.</span><span class=n >join</span><span class=p >(</span>
+                    <span class=bp >self</span><span class=o >.</span><span class=n >jupyter_globus</span><span class=p >[</span><span class=s1 >'container_home_path'</span><span class=p >],</span>
+                    <span class=bp >self</span><span class=o >.</span><span class=n >globus_filename</span><span class=p >)</span>
                 <span class=bp >self</span><span class=o >.</span><span class=n >downloading</span> <span class=o >=</span> <span class=kc >False</span>
                 <span class=bp >self</span><span class=o >.</span><span class=n >refreshing</span> <span class=o >=</span> <span class=kc >False</span>
                 <span class=bp >self</span><span class=o >.</span><span class=n >recently_submitted</span><span class=p >[</span><span class=s1 >'output'</span><span class=p >]</span><span class=o >.</span><span class=n >clear_output</span><span class=p >()</span>
@@ -501,7 +585,8 @@
 <div class=viewcode-block  id=UI.onSubmitButtonClick ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.UI.UI.onSubmitButtonClick">[docs]</a>    <span class=k >def</span> <span class=nf >onSubmitButtonClick</span><span class=p >(</span><span class=bp >self</span><span class=p >):</span>
         <span class=k >def</span> <span class=nf >on_click</span><span class=p >(</span><span class=n >change</span><span class=p >):</span>
             <span class=sd >"""</span>
-<span class=sd >            Submit the job, then rerender the result status, result events, result logs, and submit button.</span>
+<span class=sd >            Submit the job, then rerender the result status,</span>
+<span class=sd >            result events, result logs, and submit button.</span>
 <span class=sd >            """</span>
             <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >submitted</span><span class=p >:</span>
                 <span class=k >return</span>
@@ -515,11 +600,18 @@
                 <span class=n >dataFolder</span> <span class=o >=</span> <span class=bp >self</span><span class=o >.</span><span class=n >uploadData</span><span class=p >[</span><span class=s1 >'selector'</span><span class=p >]</span><span class=o >.</span><span class=n >selected</span>
                 <span class=k >if</span> <span class=n >dataFolder</span> <span class=ow >is</span> <span class=kc >None</span><span class=p >:</span>
                     <span class=k >with</span> <span class=bp >self</span><span class=o >.</span><span class=n >submit</span><span class=p >[</span><span class=s1 >'alert_output'</span><span class=p >]:</span>
-                        <span class=n >display</span><span class=p >(</span><span class=n >Markdown</span><span class=p >(</span><span class=s1 >'⚠️ please select a folder before upload...'</span><span class=p >))</span>
+                        <span class=n >display</span><span class=p >(</span>
+                            <span class=n >Markdown</span><span class=p >(</span>
+                                <span class=s1 >'⚠️ please select a folder before upload...'</span><span class=p >))</span>
                         <span class=k >return</span>
                 <span class=k >else</span><span class=p >:</span>
-                    <span class=n >dataFolder</span> <span class=o >=</span> <span class=n >dataFolder</span><span class=o >.</span><span class=n >replace</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >jupyter_globus</span><span class=p >[</span><span class=s1 >'container_home_path'</span><span class=p >]</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >),</span> <span class=s1 >''</span><span class=p >)</span>
-                    <span class=n >dataFolder</span> <span class=o >=</span> <span class=s1 >'globus://'</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >jupyter_globus</span><span class=p >[</span><span class=s1 >'endpoint'</span><span class=p >]</span> <span class=o >+</span> <span class=s1 >':'</span> <span class=o >+</span> <span class=n >os</span><span class=o >.</span><span class=n >path</span><span class=o >.</span><span class=n >join</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >jupyter_globus</span><span class=p >[</span><span class=s1 >'root_path'</span><span class=p >],</span> <span class=n >dataFolder</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >))</span>
+                    <span class=n >dataFolder</span> <span class=o >=</span> <span class=n >dataFolder</span><span class=o >.</span><span class=n >replace</span><span class=p >(</span>
+                        <span class=bp >self</span><span class=o >.</span><span class=n >jupyter_globus</span><span class=p >[</span><span class=s1 >'container_home_path'</span><span class=p >]</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >),</span>
+                        <span class=s1 >''</span><span class=p >)</span>
+                    <span class=n >dataFolder</span> <span class=o >=</span> <span class=s1 >'globus://'</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >jupyter_globus</span><span class=p >[</span><span class=s1 >'endpoint'</span><span class=p >]</span>
+                    <span class=o >+</span> <span class=s1 >':'</span> <span class=o >+</span> <span class=n >os</span><span class=o >.</span><span class=n >path</span><span class=o >.</span><span class=n >join</span><span class=p >(</span>
+                        <span class=bp >self</span><span class=o >.</span><span class=n >jupyter_globus</span><span class=p >[</span><span class=s1 >'root_path'</span><span class=p >],</span>
+                        <span class=n >dataFolder</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >))</span>
 
             <span class=n >data</span> <span class=o >=</span> <span class=bp >self</span><span class=o >.</span><span class=n >get_data</span><span class=p >()</span>
             <span class=bp >self</span><span class=o >.</span><span class=n >compute</span><span class=o >.</span><span class=n >job</span> <span class=o >=</span> <span class=bp >self</span><span class=o >.</span><span class=n >compute</span><span class=o >.</span><span class=n >create_job</span><span class=p >(</span><span class=n >hpc</span><span class=o >=</span><span class=n >data</span><span class=p >[</span><span class=s1 >'computing_resource'</span><span class=p >],</span> <span class=n >verbose</span><span class=o >=</span><span class=kc >False</span><span class=p >)</span>
@@ -532,7 +624,9 @@
             <span class=n >param</span> <span class=o >=</span> <span class=n >data</span><span class=p >[</span><span class=s1 >'param'</span><span class=p >]</span>
             <span class=c1 ># download</span>
             <span class=bp >self</span><span class=o >.</span><span class=n >globus_filename</span> <span class=o >=</span> <span class=s1 >'globus_download_'</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >compute</span><span class=o >.</span><span class=n >job</span><span class=o >.</span><span class=n >id</span>
-            <span class=n >resultFolder</span> <span class=o >=</span> <span class=s1 >'globus://'</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >jupyter_globus</span><span class=p >[</span><span class=s1 >'endpoint'</span><span class=p >]</span> <span class=o >+</span> <span class=s1 >':'</span> <span class=o >+</span> <span class=n >os</span><span class=o >.</span><span class=n >path</span><span class=o >.</span><span class=n >join</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >jupyter_globus</span><span class=p >[</span><span class=s1 >'root_path'</span><span class=p >],</span> <span class=bp >self</span><span class=o >.</span><span class=n >globus_filename</span><span class=p >)</span>
+            <span class=n >resultFolder</span> <span class=o >=</span> <span class=s1 >'globus://'</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >jupyter_globus</span><span class=p >[</span><span class=s1 >'endpoint'</span><span class=p >]</span> <span class=o >+</span> <span class=s1 >':'</span>
+            <span class=o >+</span> <span class=n >os</span><span class=o >.</span><span class=n >path</span><span class=o >.</span><span class=n >join</span><span class=p >(</span>
+                <span class=bp >self</span><span class=o >.</span><span class=n >jupyter_globus</span><span class=p >[</span><span class=s1 >'root_path'</span><span class=p >],</span> <span class=bp >self</span><span class=o >.</span><span class=n >globus_filename</span><span class=p >)</span>
 
             <span class=c1 ># submit</span>
             <span class=bp >self</span><span class=o >.</span><span class=n >compute</span><span class=o >.</span><span class=n >job</span><span class=o >.</span><span class=n >set</span><span class=p >(</span><span class=n >executableFolder</span><span class=o >=</span><span class=s1 >'git://'</span> <span class=o >+</span> <span class=n >data</span><span class=p >[</span><span class=s1 >'job_template'</span><span class=p >],</span> <span class=n >dataFolder</span><span class=o >=</span><span class=n >dataFolder</span><span class=p >,</span> <span class=n >resultFolder</span><span class=o >=</span><span class=n >resultFolder</span><span class=p >,</span> <span class=n >printJob</span><span class=o >=</span><span class=kc >False</span><span class=p >,</span> <span class=n >param</span><span class=o >=</span><span class=n >param</span><span class=p >,</span> <span class=n >slurm</span><span class=o >=</span><span class=n >slurm</span><span class=p >)</span>
@@ -549,7 +643,10 @@
 <div class=viewcode-block  id=UI.onJobDropdownChange ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.UI.UI.onJobDropdownChange">[docs]</a>    <span class=k >def</span> <span class=nf >onJobDropdownChange</span><span class=p >(</span><span class=bp >self</span><span class=p >):</span>
         <span class=k >def</span> <span class=nf >on_change</span><span class=p >(</span><span class=n >change</span><span class=p >):</span>
             <span class=sd >"""</span>
-<span class=sd >            If the information in the dropdown is changed, modify the information in jobName, job, hpcName, and hpc to match. Then, rerender the description, computing resources, sulurn, param and upload data.</span>
+<span class=sd >            If the information in the dropdown is changed,</span>
+<span class=sd >            modify the information in jobName, job, hpcName,</span>
+<span class=sd >            and hpc to match. Then, rerender the description,</span>
+<span class=sd >            computing resources, sulurn, param and upload data.</span>
 <span class=sd >            """</span>
             <span class=k >if</span> <span class=n >change</span><span class=p >[</span><span class=s1 >'type'</span><span class=p >]</span> <span class=o >==</span> <span class=s1 >'change'</span><span class=p >:</span>
                 <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >submitted</span><span class=p >:</span>
@@ -558,13 +655,19 @@
                 <span class=bp >self</span><span class=o >.</span><span class=n >job</span> <span class=o >=</span> <span class=bp >self</span><span class=o >.</span><span class=n >jobs</span><span class=p >[</span><span class=bp >self</span><span class=o >.</span><span class=n >jobName</span><span class=p >]</span>
                 <span class=bp >self</span><span class=o >.</span><span class=n >hpcName</span> <span class=o >=</span> <span class=bp >self</span><span class=o >.</span><span class=n >job</span><span class=p >[</span><span class=s1 >'default_hpc'</span><span class=p >]</span>
                 <span class=bp >self</span><span class=o >.</span><span class=n >hpc</span> <span class=o >=</span> <span class=bp >self</span><span class=o >.</span><span class=n >hpcs</span><span class=p >[</span><span class=bp >self</span><span class=o >.</span><span class=n >hpcName</span><span class=p >]</span>
-                <span class=bp >self</span><span class=o >.</span><span class=n >rerender</span><span class=p >([</span><span class=s1 >'description'</span><span class=p >,</span> <span class=s1 >'computingResource'</span><span class=p >,</span> <span class=s1 >'slurm'</span><span class=p >,</span> <span class=s1 >'param'</span><span class=p >,</span> <span class=s1 >'uploadData'</span><span class=p >])</span>
+                <span class=bp >self</span><span class=o >.</span><span class=n >rerender</span><span class=p >(</span>
+                    <span class=p >[</span>
+                        <span class=s1 >'description'</span><span class=p >,</span> <span class=s1 >'computingResource'</span><span class=p >,</span>
+                        <span class=s1 >'slurm'</span><span class=p >,</span> <span class=s1 >'param'</span><span class=p >,</span> <span class=s1 >'uploadData'</span><span class=p >])</span>
         <span class=k >return</span> <span class=n >on_change</span></div>
 
 <div class=viewcode-block  id=UI.onComputingResourceDropdownChange ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.UI.UI.onComputingResourceDropdownChange">[docs]</a>    <span class=k >def</span> <span class=nf >onComputingResourceDropdownChange</span><span class=p >(</span><span class=bp >self</span><span class=p >):</span>
         <span class=k >def</span> <span class=nf >on_change</span><span class=p >(</span><span class=n >change</span><span class=p >):</span>
             <span class=sd >"""</span>
-<span class=sd >            If the information in the computing resources dropdown is changed, update the hpcName and hpc, then rerender the description, computing resources, sulurn, param and upload data.</span>
+<span class=sd >            If the information in the computing resources</span>
+<span class=sd >            dropdown is changed, update the hpcName and hpc,</span>
+<span class=sd >            then rerender the description, computing resources,</span>
+<span class=sd >            sulurn, param and upload data.</span>
 <span class=sd >            """</span>
             <span class=k >if</span> <span class=n >change</span><span class=p >[</span><span class=s1 >'type'</span><span class=p >]</span> <span class=o >==</span> <span class=s1 >'change'</span><span class=p >:</span>
                 <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >submitted</span><span class=p >:</span>
@@ -609,7 +712,8 @@
     <span class=c1 ># helpers</span>
 <div class=viewcode-block  id=UI.init ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.UI.UI.init">[docs]</a>    <span class=k >def</span> <span class=nf >init</span><span class=p >(</span><span class=bp >self</span><span class=p >):</span>
         <span class=sd >"""</span>
-<span class=sd >        Initialization helper function that sets default arguments. Runs when the UI is rendered.</span>
+<span class=sd >        Initialization helper function that</span>
+<span class=sd >        sets default arguments. Runs when the UI is rendered.</span>
 <span class=sd >        """</span>
         <span class=n >silent</span> <span class=o >=</span> <span class=n >widgets</span><span class=o >.</span><span class=n >Output</span><span class=p >()</span>
         <span class=k >with</span> <span class=n >silent</span><span class=p >:</span>
@@ -663,10 +767,12 @@
     <span class=c1 ># data</span>
 <div class=viewcode-block  id=UI.get_data ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.UI.UI.get_data">[docs]</a>    <span class=k >def</span> <span class=nf >get_data</span><span class=p >(</span><span class=bp >self</span><span class=p >):</span>
         <span class=sd >"""</span>
-<span class=sd >        Get data about the job submitted (template, computing resource used, slurm rules, param rules, user email)</span>
+<span class=sd >        Get data about the job submitted (template, computing resource used,</span>
+<span class=sd >        slurm rules, param rules, user email)</span>
 
 <span class=sd >        Returns:</span>
-<span class=sd >            (dict) Information about the job submitted (template, computing resource used, slurm rules, param rules, user email)</span>
+<span class=sd >            dict : Information about the job submitted (template,</span>
+<span class=sd >            computing resource used, slurm rules, param rules, user email)</span>
 <span class=sd >        """</span>
         <span class=n >out</span> <span class=o >=</span> <span class=p >{</span>
             <span class=s1 >'job_template'</span><span class=p >:</span> <span class=bp >self</span><span class=o >.</span><span class=n >jobTemplate</span><span class=p >[</span><span class=s1 >'dropdown'</span><span class=p >]</span><span class=o >.</span><span class=n >value</span><span class=p >,</span>
@@ -677,18 +783,22 @@
                 <span class=s1 >'cpu_per_task'</span><span class=p >:</span> <span class=mi >1</span>
             <span class=p >},</span>
             <span class=s1 >'param'</span><span class=p >:</span> <span class=p >{},</span>
-            <span class=s1 >'email'</span><span class=p >:</span> <span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'text'</span><span class=p >]</span><span class=o >.</span><span class=n >value</span> <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'checkbox'</span><span class=p >]</span><span class=o >.</span><span class=n >value</span> <span class=k >else</span> <span class=kc >None</span><span class=p >,</span>
+            <span class=s1 >'email'</span><span class=p >:</span> <span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span><span class=s1 >'text'</span><span class=p >]</span><span class=o >.</span><span class=n >value</span> <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >email</span><span class=p >[</span>
+                <span class=s1 >'checkbox'</span><span class=p >]</span><span class=o >.</span><span class=n >value</span> <span class=k >else</span> <span class=kc >None</span><span class=p >,</span>
         <span class=p >}</span>
 
         <span class=k >for</span> <span class=n >i</span> <span class=ow >in</span> <span class=bp >self</span><span class=o >.</span><span class=n >slurm_configs</span><span class=p >:</span>
-            <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=n >i</span><span class=p >]</span> <span class=ow >is</span> <span class=ow >not</span> <span class=kc >None</span> <span class=ow >and</span> <span class=n >i</span> <span class=ow >in</span> <span class=bp >self</span><span class=o >.</span><span class=n >job</span><span class=p >[</span><span class=s1 >'slurm_input_rules'</span><span class=p >]:</span>
+            <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=n >i</span><span class=p >]</span> <span class=ow >is</span> <span class=ow >not</span> <span class=kc >None</span> <span class=ow >and</span> <span class=n >i</span> <span class=ow >in</span> <span class=bp >self</span><span class=o >.</span><span class=n >job</span><span class=p >[</span>
+                    <span class=s1 >'slurm_input_rules'</span><span class=p >]:</span>
                 <span class=k >if</span> <span class=ow >not</span> <span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=n >i</span><span class=p >]</span><span class=o >.</span><span class=n >value</span><span class=p >:</span>
                     <span class=k >continue</span>  <span class=c1 ># skip null value</span>
                 <span class=n >config</span> <span class=o >=</span> <span class=bp >self</span><span class=o >.</span><span class=n >job</span><span class=p >[</span><span class=s1 >'slurm_input_rules'</span><span class=p >][</span><span class=n >i</span><span class=p >]</span>
                 <span class=k >if</span> <span class=n >i</span> <span class=ow >in</span> <span class=bp >self</span><span class=o >.</span><span class=n >slurm_integer_storage_unit_config</span><span class=p >:</span>
-                    <span class=n >out</span><span class=p >[</span><span class=s1 >'slurm'</span><span class=p >][</span><span class=n >i</span><span class=p >]</span> <span class=o >=</span> <span class=nb >str</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=n >i</span><span class=p >]</span><span class=o >.</span><span class=n >value</span><span class=p >)</span> <span class=o >+</span> <span class=nb >str</span><span class=p >(</span><span class=n >config</span><span class=p >[</span><span class=s1 >'unit'</span><span class=p >])</span>
+                    <span class=n >out</span><span class=p >[</span><span class=s1 >'slurm'</span><span class=p >][</span><span class=n >i</span><span class=p >]</span> <span class=o >=</span> <span class=nb >str</span><span class=p >(</span>
+                        <span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=n >i</span><span class=p >]</span><span class=o >.</span><span class=n >value</span><span class=p >)</span> <span class=o >+</span> <span class=nb >str</span><span class=p >(</span><span class=n >config</span><span class=p >[</span><span class=s1 >'unit'</span><span class=p >])</span>
                 <span class=k >elif</span> <span class=n >i</span> <span class=ow >in</span> <span class=bp >self</span><span class=o >.</span><span class=n >slurm_integer_time_unit_config</span><span class=p >:</span>
-                    <span class=n >seconds</span> <span class=o >=</span> <span class=bp >self</span><span class=o >.</span><span class=n >unitTimeToSecond</span><span class=p >(</span><span class=n >config</span><span class=p >[</span><span class=s1 >'unit'</span><span class=p >],</span> <span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=n >i</span><span class=p >]</span><span class=o >.</span><span class=n >value</span><span class=p >)</span>
+                    <span class=n >seconds</span> <span class=o >=</span> <span class=bp >self</span><span class=o >.</span><span class=n >unitTimeToSecond</span><span class=p >(</span>
+                        <span class=n >config</span><span class=p >[</span><span class=s1 >'unit'</span><span class=p >],</span> <span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=n >i</span><span class=p >]</span><span class=o >.</span><span class=n >value</span><span class=p >)</span>
                     <span class=n >out</span><span class=p >[</span><span class=s1 >'slurm'</span><span class=p >][</span><span class=n >i</span><span class=p >]</span> <span class=o >=</span> <span class=bp >self</span><span class=o >.</span><span class=n >secondsToTime</span><span class=p >(</span><span class=n >seconds</span><span class=p >)</span>
                 <span class=k >else</span><span class=p >:</span>
                     <span class=n >out</span><span class=p >[</span><span class=s1 >'slurm'</span><span class=p >][</span><span class=n >i</span><span class=p >]</span> <span class=o >=</span> <span class=bp >self</span><span class=o >.</span><span class=n >slurm</span><span class=p >[</span><span class=n >i</span><span class=p >]</span><span class=o >.</span><span class=n >value</span>
@@ -724,7 +834,8 @@
 <span class=sd >        Helper function that turns time in a specific unit into seconds</span>
 
 <span class=sd >        Args:</span>
-<span class=sd >            unit (string): The unit of the time being passed (Minutes, Hours, or Days)</span>
+<span class=sd >            unit (string): The unit of the time being</span>
+<span class=sd >            passed (Minutes, Hours, or Days)</span>
 <span class=sd >            time (int): The time in that specific unit</span>
 <span class=sd >        """</span>
         <span class=k >if</span> <span class=n >unit</span> <span class=o >==</span> <span class=s1 >'Minutes'</span><span class=p >:</span>

@@ -16,22 +16,21 @@
     <span class=sd >"""</span>
 <span class=sd >    Client class</span>
 <span class=sd >    An inteface that handles requests made to different servers</span>
+
+<span class=sd >    Args:</span>
+<span class=sd >        url (str) : url that needs to be accessed</span>
+<span class=sd >        port (str) : port of the Jupyter or Python interface</span>
+<span class=sd >        protocol (str) : Typically HTTP or HTTPS</span>
+<span class=sd >        suffix (str) : specify version. For e.g v2</span>
+
 <span class=sd >    Attributes:</span>
-<span class=sd >        url (str)                   : url that needs to be accessed</span>
-<span class=sd >        port (str)                  : port of the Jupyter or Python interface</span>
-<span class=sd >        suffix (str)                : specify version. For e.g v2</span>
+<span class=sd >        url (str) : url that needs to be accessed</span>
+<span class=sd >        port (str) : port of the Jupyter or Python interface</span>
+<span class=sd >        suffix (str) : specify version. For e.g v2</span>
 <span class=sd >    """</span>
-    <span class=k >def</span> <span class=fm >__init__</span><span class=p >(</span><span class=bp >self</span><span class=p >,</span> <span class=n >url</span><span class=o >=</span><span class=s2 >"cgjobsup.cigi.illinois.edu"</span><span class=p >,</span> <span class=n >port</span><span class=o >=</span><span class=mi >443</span><span class=p >,</span> <span class=n >protocol</span><span class=o >=</span><span class=s2 >"HTTPS"</span><span class=p >,</span> <span class=n >suffix</span><span class=o >=</span><span class=s2 >"v2"</span><span class=p >):</span>
-        <span class=sd >"""</span>
-<span class=sd >        Initializes instance Client using inputs from the client</span>
-<span class=sd >        Args:</span>
-<span class=sd >            url (str)               : url that needs to be accessed</span>
-<span class=sd >            port (str)              : port of the Jupyter or Python interface</span>
-<span class=sd >            protocol (str)          : Typically HTTP or HTTPS</span>
-<span class=sd >            suffix (str)            : specify version. For e.g v2</span>
-<span class=sd >        Returns:</span>
-<span class=sd >            (obj)                   : this Client</span>
-<span class=sd >        """</span>
+    <span class=k >def</span> <span class=fm >__init__</span><span class=p >(</span>
+        <span class=bp >self</span><span class=p >,</span> <span class=n >url</span><span class=o >=</span><span class=s2 >"cgjobsup.cigi.illinois.edu"</span><span class=p >,</span>
+            <span class=n >port</span><span class=o >=</span><span class=mi >443</span><span class=p >,</span> <span class=n >protocol</span><span class=o >=</span><span class=s2 >"HTTPS"</span><span class=p >,</span> <span class=n >suffix</span><span class=o >=</span><span class=s2 >"v2"</span><span class=p >):</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >url</span> <span class=o >=</span> <span class=n >url</span> <span class=o >+</span> <span class=s1 >':'</span> <span class=o >+</span> <span class=nb >str</span><span class=p >(</span><span class=n >port</span><span class=p >)</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >protocol</span> <span class=o >=</span> <span class=n >protocol</span>
         <span class=bp >self</span><span class=o >.</span><span class=n >suffix</span> <span class=o >=</span> <span class=n >suffix</span>
@@ -39,19 +38,24 @@
 <div class=viewcode-block  id=Client.request ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.Client.Client.request">[docs]</a>    <span class=k >def</span> <span class=nf >request</span><span class=p >(</span><span class=bp >self</span><span class=p >,</span> <span class=n >method</span><span class=p >,</span> <span class=n >uri</span><span class=p >,</span> <span class=n >body</span><span class=o >=</span><span class=p >{}):</span>
         <span class=sd >"""</span>
 <span class=sd >        Returns data from a request made to the specified uri</span>
+
 <span class=sd >        Args:</span>
-<span class=sd >            methods (str)           : type of request that needs to be made. For e.g "POST"</span>
-<span class=sd >            uri (str)               : uri of the server</span>
-<span class=sd >            body (str)              : data that needs to be sent</span>
+<span class=sd >            methods (str) : type of request that needs to be</span>
+<span class=sd >            made. For e.g "POST"</span>
+<span class=sd >            uri (str) : uri of the server</span>
+<span class=sd >            body (str) : data that needs to be sent</span>
+
 <span class=sd >        Returns:</span>
-<span class=sd >            JSON                    : output thats returned by the server</span>
+<span class=sd >            JSON : output thats returned by the server</span>
 <span class=sd >        """</span>
         <span class=k >if</span> <span class=bp >self</span><span class=o >.</span><span class=n >protocol</span> <span class=o >==</span> <span class=s1 >'HTTP'</span><span class=p >:</span>
             <span class=n >connection</span> <span class=o >=</span> <span class=n >client</span><span class=o >.</span><span class=n >HTTPConnection</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >url</span><span class=p >)</span>
         <span class=k >else</span><span class=p >:</span>
             <span class=n >connection</span> <span class=o >=</span> <span class=n >client</span><span class=o >.</span><span class=n >HTTPSConnection</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >url</span><span class=p >)</span>
         <span class=n >headers</span> <span class=o >=</span> <span class=p >{</span><span class=s1 >'Content-type'</span><span class=p >:</span> <span class=s1 >'application/json'</span><span class=p >}</span>
-        <span class=n >connection</span><span class=o >.</span><span class=n >request</span><span class=p >(</span><span class=n >method</span><span class=p >,</span> <span class=s1 >'/'</span> <span class=o >+</span> <span class=n >path</span><span class=o >.</span><span class=n >join</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >suffix</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >),</span> <span class=n >uri</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >)),</span> <span class=n >json</span><span class=o >.</span><span class=n >dumps</span><span class=p >(</span><span class=n >body</span><span class=p >),</span> <span class=n >headers</span><span class=p >)</span>
+        <span class=n >connection</span><span class=o >.</span><span class=n >request</span><span class=p >(</span>
+            <span class=n >method</span><span class=p >,</span> <span class=s1 >'/'</span> <span class=o >+</span> <span class=n >path</span><span class=o >.</span><span class=n >join</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >suffix</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >),</span> <span class=n >uri</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >)),</span>
+            <span class=n >json</span><span class=o >.</span><span class=n >dumps</span><span class=p >(</span><span class=n >body</span><span class=p >),</span> <span class=n >headers</span><span class=p >)</span>
         <span class=n >response</span> <span class=o >=</span> <span class=n >connection</span><span class=o >.</span><span class=n >getresponse</span><span class=p >()</span>
         <span class=n >out</span> <span class=o >=</span> <span class=n >response</span><span class=o >.</span><span class=n >read</span><span class=p >()</span><span class=o >.</span><span class=n >decode</span><span class=p >()</span>
         <span class=n >data</span> <span class=o >=</span> <span class=n >json</span><span class=o >.</span><span class=n >loads</span><span class=p >(</span><span class=n >out</span><span class=p >)</span>
@@ -66,16 +70,19 @@
 
 <div class=viewcode-block  id=Client.download ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.Client.Client.download">[docs]</a>    <span class=k >def</span> <span class=nf >download</span><span class=p >(</span><span class=bp >self</span><span class=p >,</span> <span class=n >uri</span><span class=p >,</span> <span class=n >body</span><span class=p >,</span> <span class=n >localDir</span><span class=p >):</span>
         <span class=sd >"""</span>
-<span class=sd >        Downloads data from a request made to the specified uri onto the specifed path</span>
+<span class=sd >        Downloads data from a request made to the specified uri</span>
+<span class=sd >        onto the specifed path</span>
+
 <span class=sd >        Args:</span>
-<span class=sd >            uri (str)               : uri of the server</span>
-<span class=sd >            body (str)              : data that needs to be dowloaded</span>
-<span class=sd >            localDir (str)          : path where the data needs to be downloaded</span>
+<span class=sd >            uri (str) : uri of the server</span>
+<span class=sd >            body (str) : data that needs to be dowloaded</span>
+<span class=sd >            localDir (str) : path where the data needs to be downloaded</span>
 
 <span class=sd >        Returns:</span>
-<span class=sd >            str                     : path where the data is stored</span>
+<span class=sd >            str : path where the data is stored</span>
 <span class=sd >        """</span>
-        <span class=n >url</span> <span class=o >=</span> <span class=bp >self</span><span class=o >.</span><span class=n >protocol</span><span class=o >.</span><span class=n >lower</span><span class=p >()</span> <span class=o >+</span> <span class=s1 >'://'</span> <span class=o >+</span> <span class=n >path</span><span class=o >.</span><span class=n >join</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >url</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >),</span> <span class=bp >self</span><span class=o >.</span><span class=n >suffix</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >),</span> <span class=n >uri</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >))</span>
+        <span class=n >url</span> <span class=o >=</span> <span class=bp >self</span><span class=o >.</span><span class=n >protocol</span><span class=o >.</span><span class=n >lower</span><span class=p >()</span> <span class=o >+</span> <span class=s1 >'://'</span> <span class=o >+</span> <span class=n >path</span><span class=o >.</span><span class=n >join</span><span class=p >(</span>
+            <span class=bp >self</span><span class=o >.</span><span class=n >url</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >),</span> <span class=bp >self</span><span class=o >.</span><span class=n >suffix</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >),</span> <span class=n >uri</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >))</span>
         <span class=n >response</span> <span class=o >=</span> <span class=n >requests</span><span class=o >.</span><span class=n >get</span><span class=p >(</span><span class=n >url</span><span class=p >,</span> <span class=n >data</span><span class=o >=</span><span class=n >body</span><span class=p >,</span> <span class=n >stream</span><span class=o >=</span><span class=kc >True</span><span class=p >)</span>
         <span class=n >contentType</span> <span class=o >=</span> <span class=n >response</span><span class=o >.</span><span class=n >headers</span><span class=p >[</span><span class=s1 >'Content-Type'</span><span class=p >]</span>
 
@@ -109,17 +116,21 @@
 <div class=viewcode-block  id=Client.upload ><a class=viewcode-back  href="../../reference.html#cybergis_compute_client.Client.Client.upload">[docs]</a>    <span class=k >def</span> <span class=nf >upload</span><span class=p >(</span><span class=bp >self</span><span class=p >,</span> <span class=n >uri</span><span class=p >,</span> <span class=n >body</span><span class=p >,</span> <span class=n >file</span><span class=p >):</span>
         <span class=sd >"""</span>
 <span class=sd >        Uploads data using a request made to the specified uri</span>
+
 <span class=sd >        Args:</span>
-<span class=sd >            uri (str)               : uri of the server</span>
-<span class=sd >            body (str)              : data that needs to be uploaded</span>
-<span class=sd >            file (str)              : file that needs to be uploaded</span>
+<span class=sd >            uri (str) : uri of the server</span>
+<span class=sd >            body (str) : data that needs to be uploaded</span>
+<span class=sd >            file (str) : file that needs to be uploaded</span>
 
 <span class=sd >        Returns:</span>
-<span class=sd >            JSON                    : output from the upload request to the server</span>
+<span class=sd >            JSON : output from the upload request to the server</span>
 <span class=sd >        """</span>
-        <span class=n >url</span> <span class=o >=</span> <span class=bp >self</span><span class=o >.</span><span class=n >protocol</span><span class=o >.</span><span class=n >lower</span><span class=p >()</span> <span class=o >+</span> <span class=s1 >'://'</span> <span class=o >+</span> <span class=n >path</span><span class=o >.</span><span class=n >join</span><span class=p >(</span><span class=bp >self</span><span class=o >.</span><span class=n >url</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >),</span> <span class=bp >self</span><span class=o >.</span><span class=n >suffix</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >),</span> <span class=n >uri</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >))</span>
+        <span class=n >url</span> <span class=o >=</span> <span class=bp >self</span><span class=o >.</span><span class=n >protocol</span><span class=o >.</span><span class=n >lower</span><span class=p >()</span> <span class=o >+</span> <span class=s1 >'://'</span> <span class=o >+</span> <span class=n >path</span><span class=o >.</span><span class=n >join</span><span class=p >(</span>
+            <span class=bp >self</span><span class=o >.</span><span class=n >url</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >),</span> <span class=bp >self</span><span class=o >.</span><span class=n >suffix</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >),</span>
+            <span class=n >uri</span><span class=o >.</span><span class=n >strip</span><span class=p >(</span><span class=s1 >'/'</span><span class=p >))</span>
         <span class=n >data</span> <span class=o >=</span> <span class=n >json</span><span class=o >.</span><span class=n >loads</span><span class=p >(</span><span class=n >requests</span><span class=o >.</span><span class=n >post</span><span class=p >(</span><span class=n >url</span><span class=p >,</span> <span class=n >data</span><span class=o >=</span><span class=n >body</span><span class=p >,</span> <span class=n >files</span><span class=o >=</span><span class=p >{</span><span class=s1 >'file'</span><span class=p >:</span> <span class=n >file</span><span class=p >})</span><span class=o >.</span><span class=n >content</span><span class=o >.</span><span class=n >decode</span><span class=p >())</span>
         <span class=k >if</span> <span class=s1 >'error'</span> <span class=ow >in</span> <span class=n >data</span><span class=p >:</span>
-            <span class=k >return</span> <span class=s1 >'❌ server '</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >url</span> <span class=o >+</span> <span class=s1 >' responded with error "'</span> <span class=o >+</span> <span class=n >data</span><span class=p >[</span><span class=s1 >'error'</span><span class=p >]</span> <span class=o >+</span> <span class=s1 >'"'</span>
+            <span class=k >return</span> <span class=s1 >'❌ server '</span> <span class=o >+</span> <span class=bp >self</span><span class=o >.</span><span class=n >url</span> <span class=o >+</span> <span class=s1 >' responded with error "'</span>
+            <span class=o >+</span> <span class=n >data</span><span class=p >[</span><span class=s1 >'error'</span><span class=p >]</span> <span class=o >+</span> <span class=s1 >'"'</span>
         <span class=k >return</span> <span class=n >data</span></div></div>
 </pre></div> </article> </div> </div> </main> </div> <footer class=md-footer > <div class=md-footer-nav > <nav class="md-footer-nav__inner md-grid"> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright > <div class=md-footer-copyright__highlight > &#169; Copyright 2022, CyberGIS Center. </div> Created using <a href="http://www.sphinx-doc.org/">Sphinx</a> 5.0.1. and <a href="https://github.com/bashtage/sphinx-material/">Material for Sphinx</a> </div> </div> </div> </footer> <script src="../../_static/javascripts/application.js"></script> <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>
